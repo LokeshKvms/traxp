@@ -28,7 +28,7 @@ class TransactionController extends Controller
                 break;
             case 'monthly':
                 $query->whereYear('transaction_date', now()->year)
-                      ->whereMonth('transaction_date', now()->month);
+                    ->whereMonth('transaction_date', now()->month);
                 break;
             case 'weekly':
                 $query->whereBetween('transaction_date', [now()->startOfWeek(), now()->endOfWeek()]);
@@ -52,11 +52,17 @@ class TransactionController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('desc', 'like', '%' . $search . '%')
-                  ->orWhereHas('category', fn($q2) => $q2->where('name', 'like', '%' . $search . '%'));
+                ->orWhereHas('category', fn($q2) => $q2->where('name', 'like', '%' . $search . '%'));
             });
         }
 
-        // Export
+        // Clone query before pagination for total calculations
+        $totalsQuery = clone $query;
+        $totalCashIn = $totalsQuery->where('type', 'cash_in')->sum('amount');
+        $totalCashOut = (clone $query)->where('type', 'cash_out')->sum('amount');
+        $balance = $totalCashIn - $totalCashOut;
+
+        // Export CSV
         if ($export === 'csv') {
             $transactions = $query->orderBy('transaction_date', 'desc')->get();
             $headers = [
@@ -72,8 +78,8 @@ class TransactionController extends Controller
                         $t->transaction_date,
                         $t->category->name ?? 'N/A',
                         $t->desc,
-                        $t->type === 'cash_in' ? $t->amount : '0.00',
-                        $t->type === 'cash_out' ? $t->amount : '0.00',
+                        $t->type === 'cash_in' ? $t->amount : '',
+                        $t->type === 'cash_out' ? $t->amount : '',
                     ]);
                 }
                 fclose($file);
@@ -85,9 +91,12 @@ class TransactionController extends Controller
         $categories = Category::orderBy('name')->get();
 
         return view('transactions.index', compact(
-            'transactions', 'categories', 'filter', 'search', 'categoryId', 'startDate', 'endDate'
+            'transactions', 'categories', 'filter', 'search',
+            'categoryId', 'startDate', 'endDate',
+            'totalCashIn', 'totalCashOut', 'balance'
         ));
-    }
+}
+
 
     public function create()
     {
@@ -99,6 +108,7 @@ class TransactionController extends Controller
     {
         $validated = $request->validate([
             'type' => 'required|in:cash_in,cash_out',
+
             'amount' => 'required|numeric|min:0.01',
             'desc' => 'nullable|string|max:255',
             'transaction_date' => 'required|date',
