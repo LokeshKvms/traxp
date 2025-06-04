@@ -3,84 +3,149 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class TransactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        return view('transactions.index');
+        $user = $request->user();
+        $filter = $request->get('filter', 'all');
+        $search = $request->get('search');
+        $categoryId = $request->get('category_id');
+        $startDate = $request->get('start_date');
+        $endDate = $request->get('end_date');
+        $export = $request->get('export');
+
+        $query = Transaction::with('category')->where('user_id', $user->id);
+
+        // Apply filters
+        switch ($filter) {
+            case 'yearly':
+                $query->whereYear('transaction_date', now()->year);
+                break;
+            case 'monthly':
+                $query->whereYear('transaction_date', now()->year)
+                      ->whereMonth('transaction_date', now()->month);
+                break;
+            case 'weekly':
+                $query->whereBetween('transaction_date', [now()->startOfWeek(), now()->endOfWeek()]);
+                break;
+            case 'daily':
+                $query->whereDate('transaction_date', now()->toDateString());
+                break;
+            case 'custom':
+                if ($startDate && $endDate) {
+                    $query->whereBetween('transaction_date', [$startDate, $endDate]);
+                }
+                break;
+            case 'category':
+                if ($categoryId) {
+                    $query->where('category_id', $categoryId);
+                }
+                break;
+        }
+
+        // Search
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('desc', 'like', '%' . $search . '%')
+                  ->orWhereHas('category', fn($q2) => $q2->where('name', 'like', '%' . $search . '%'));
+            });
+        }
+
+        // Export
+        if ($export === 'csv') {
+            $transactions = $query->orderBy('transaction_date', 'desc')->get();
+            $headers = [
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => 'attachment; filename="transactions.csv"',
+            ];
+            $callback = function () use ($transactions) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, ['ID', 'Date & Time', 'Category', 'Reason', 'Cash In', 'Cash Out']);
+                foreach ($transactions as $t) {
+                    fputcsv($file, [
+                        $t->id,
+                        $t->transaction_date,
+                        $t->category->name ?? 'N/A',
+                        $t->desc,
+                        $t->type === 'cash_in' ? $t->amount : '0.00',
+                        $t->type === 'cash_out' ? $t->amount : '0.00',
+                    ]);
+                }
+                fclose($file);
+            };
+            return Response::stream($callback, 200, $headers);
+        }
+
+        $transactions = $query->orderBy('transaction_date', 'desc')->paginate(10)->withQueryString();
+        $categories = Category::orderBy('name')->get();
+
+        return view('transactions.index', compact(
+            'transactions', 'categories', 'filter', 'search', 'categoryId', 'startDate', 'endDate'
+        ));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $categories = Category::orderBy('name')->get();
+        return view('transactions.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'type' => 'required|in:cash_in,cash_out',
+            'amount' => 'required|numeric|min:0.01',
+            'desc' => 'nullable|string|max:255',
+            'transaction_date' => 'required|date',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $request->user()->transactions()->create($validated);
+
+        return redirect()->route('transactions.index')->with('success', 'Transaction added successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Transaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Transaction $transaction)
+    public function show($id)
     {
-        //
+        $transaction = Transaction::with('category')->where('user_id', auth()->id())->findOrFail($id);
+        return view('transactions.show', compact('transaction'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Transaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Transaction $transaction)
+    public function edit($id)
     {
-        //
+        $transaction = Transaction::where('user_id', auth()->id())->findOrFail($id);
+        $categories = Category::orderBy('name')->get();
+
+        return view('transactions.edit', compact('transaction', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Transaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Transaction $transaction)
+    public function update(Request $request, $id)
     {
-        //
+        $transaction = Transaction::where('user_id', auth()->id())->findOrFail($id);
+
+        $validated = $request->validate([
+            'type' => 'required|in:cash_in,cash_out',
+            'amount' => 'required|numeric|min:0.01',
+            'desc' => 'nullable|string|max:255',
+            'transaction_date' => 'required|date',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $transaction->update($validated);
+
+        return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Transaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Transaction $transaction)
+    public function destroy($id)
     {
-        //
+        $transaction = Transaction::where('user_id', auth()->id())->findOrFail($id);
+        $transaction->delete();
+
+        return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
     }
 }
