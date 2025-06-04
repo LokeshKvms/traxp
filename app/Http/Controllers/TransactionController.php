@@ -69,9 +69,11 @@ class TransactionController extends Controller
                 'Content-Type' => 'text/csv',
                 'Content-Disposition' => 'attachment; filename="transactions.csv"',
             ];
-            $callback = function () use ($transactions) {
+            
+            $callback = function () use ($transactions, $totalCashIn, $totalCashOut, $balance) {
                 $file = fopen('php://output', 'w');
                 fputcsv($file, ['ID', 'Date & Time', 'Category', 'Reason', 'Cash In', 'Cash Out']);
+                
                 foreach ($transactions as $t) {
                     fputcsv($file, [
                         $t->id,
@@ -82,12 +84,16 @@ class TransactionController extends Controller
                         $t->type === 'cash_out' ? $t->amount : '',
                     ]);
                 }
+                fputcsv($file, []);
+                fputcsv($file, ['', '', '', 'Total Cash In', $totalCashIn]);
+                fputcsv($file, ['', '', '', 'Total Cash Out', '', $totalCashOut]);
+                fputcsv($file, ['', '', '', 'Balance', $balance]);
                 fclose($file);
             };
             return Response::stream($callback, 200, $headers);
         }
 
-        $transactions = $query->orderBy('transaction_date', 'desc')->paginate(10)->withQueryString();
+        $transactions = $query->orderBy('transaction_date', 'desc')->paginate(5)->withQueryString();
         $categories = Category::orderBy('name')->get();
 
         return view('transactions.index', compact(
