@@ -5,35 +5,48 @@
 
     <div class="py-8 max-w-7xl mx-auto sm:px-6 lg:px-8">
         {{-- Controls (Search + Export) --}}
-        <div class="mb-6 flex flex-wrap items-center gap-4">
+        <div class="mb-6 flex items-center gap-4 border border-gray-300 bg-white p-4 rounded-md shadow-sm">
             {{-- Search --}}
-            <form method="GET" action="{{ route('transactions.index') }}" class="flex space-x-2 items-center">
+            <form method="GET" action="{{ route('transactions.index') }}" class="flex space-x-2 items-center flex-1">
+                
                 <input 
                     type="text" 
                     name="search" 
                     value="{{ $search }}" 
                     placeholder="Search transactions..." 
-                    class="rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                    class="w-full rounded-md border border-gray-300 bg-white text-gray-900 placeholder-gray-400 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition"
                 />
-                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md font-medium transition">
-                    Search
+
+                <button 
+                    type="submit" 
+                    class="bg-gray-900 hover:bg-gray-800 text-white px-5 py-2 rounded-md font-semibold transition"
+                    aria-label="Search transactions"
+                >
+                Search
                 </button>
             </form>
 
             {{-- Export --}}
-            <form method="GET" action="{{ route('transactions.index') }}">
+            <form method="GET" action="{{ route('transactions.index') }}" class="flex-shrink-0">
                 <input type="hidden" name="filter" value="{{ $filter }}">
                 <input type="hidden" name="search" value="{{ $search }}">
                 <input type="hidden" name="export" value="csv">
+                
                 @if ($filter === 'custom')
                     <input type="hidden" name="start_date" value="{{ $startDate }}">
                     <input type="hidden" name="end_date" value="{{ $endDate }}">
                 @endif
+
                 @if ($filter === 'category')
                     <input type="hidden" name="category_id" value="{{ $categoryId }}">
                 @endif
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium transition">
-                    Export CSV
+                
+                <button 
+                    type="submit" 
+                    class="bg-gray-900 hover:bg-gray-800 text-white px-5 py-2 rounded-md font-semibold transition"
+                    aria-label="Export transactions as CSV"
+                >
+                Export CSV
                 </button>
             </form>
         </div>
@@ -42,11 +55,13 @@
         <div class="flex flex-wrap gap-3 mb-6 items-center">
             @foreach (['all', 'yearly', 'monthly', 'weekly', 'daily'] as $option)
                 <a 
-                    href="{{ route('transactions.index', ['filter' => $option]) }}"
-                    class="px-4 py-2 rounded-md font-semibold transition
-                        {{ $filter === $option ? 'bg-indigo-700 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-700' }}"
+                href="{{ route('transactions.index', ['filter' => $option]) }}"
+                class="px-4 py-2 rounded-md font-semibold transition
+                    {{ $filter === $option 
+                    ? 'bg-gray-900 text-white' 
+                    : 'bg-gray-200 hover:bg-gray-300 text-gray-700' }}"
                 >
-                    {{ ucfirst($option) }}
+                {{ ucfirst($option) }}
                 </a>
             @endforeach
 
@@ -54,20 +69,23 @@
             <form method="GET" action="{{ route('transactions.index') }}" class="flex items-center gap-2">
                 <input type="hidden" name="filter" value="custom">
                 <input 
-                    type="date" 
-                    name="start_date" 
-                    value="{{ $startDate }}" 
-                    class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                type="date" 
+                name="start_date" 
+                value="{{ $startDate }}" 
+                class="border border-gray-300 rounded-md px-3 py-2 text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                 >
                 <span class="text-gray-500 font-semibold select-none">to</span>
                 <input 
-                    type="date" 
-                    name="end_date" 
-                    value="{{ $endDate }}" 
-                    class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                type="date" 
+                name="end_date" 
+                value="{{ $endDate }}" 
+                class="border border-gray-300 rounded-md px-3 py-2 text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                 >
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition">
-                    Apply
+                <button 
+                type="submit" 
+                class="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-md font-medium transition"
+                >
+                Apply
                 </button>
             </form>
 
@@ -75,17 +93,16 @@
             <form method="GET" action="{{ route('transactions.index') }}" class="flex items-center gap-2" id="categoryFilterForm">
                 <input type="hidden" name="filter" value="category">
                 <select 
-                    name="category_id" 
-                    class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
-                    onchange="document.getElementById('categoryFilterForm').submit()"
+                name="category_id" 
+                class="border border-gray-300 rounded-md px-3 py-2 text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+                onchange="document.getElementById('categoryFilterForm').submit()"
                 >
-                    <option value="">Choose Category</option>
-                    @foreach($categories as $cat)
-                        <option value="{{ $cat->id }}" @selected($categoryId == $cat->id)>{{ $cat->name }}</option>
-                    @endforeach
+                <option value="" class="text-gray-700">Choose Category</option>
+                @foreach($categories as $cat)
+                    <option value="{{ $cat->id }}" @selected($categoryId == $cat->id)>{{ $cat->name }}</option>
+                @endforeach
                 </select>
             </form>
-
         </div>
 
         {{-- Transactions Table --}}
@@ -116,7 +133,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center py-6 text-gray-500 italic">No transactions found.</td>
+                            <td colspan="6" class="text-center py-6 text-md text-gray-500 italic font-bold">No transactions found</td>
                         </tr>
                     @endforelse
                 </tbody>
