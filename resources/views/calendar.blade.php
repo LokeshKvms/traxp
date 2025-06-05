@@ -43,7 +43,17 @@
     .empty-day { background-color: #fafafa; }
     .navigation { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
     .nav-button {
-        background-color: #1d4ed8;
+        background-color: black;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .cal-button {
+        background-color: black;
         color: white;
         padding: 6px 12px;
         border-radius: 5px;
@@ -55,9 +65,9 @@
     /* Dropdown styles */
     #calendar-form select {
         font-weight: 600;
+        width: 200px;
         border-radius: 5px;
         border: none;
-        background-color: #1d4ed8;
         color: white;
         padding: 6px 10px;
         cursor: pointer;
@@ -72,11 +82,13 @@
     }
 
     #calendar-form button[type="submit"] {
-        background-color: #2563eb;
+        background-color: black;
+        width: 150px !important;
     }
 
     #cancel-button {
         background-color: #dc2626;
+        width: 150px !important;
     }
 
     .modal {
@@ -90,7 +102,7 @@
     }
 
     .modal-content {
-        background: white;
+        background: rgb(250, 250, 250);
         padding: 20px 30px;
         border-radius: 8px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.2);
@@ -115,22 +127,37 @@
                 <!-- Modal background -->
                 <div id="calendar-modal" class="modal hidden">
                     <div class="modal-content">
-                        <form id="calendar-form" action="{{ route('calendar') }}" method="GET" style="margin-top: 0;">
-                            <select name="month" id="month-select" class="nav-button" style="margin-right:5px;">
-                                @foreach ($months as $num => $name)
-                                    <option value="{{ str_pad($num, 2, '0', STR_PAD_LEFT) }}" @if ($num == $currentMonthNumber) selected @endif>{{ $name }}</option>
-                                @endforeach
-                            </select>
-                            <select name="year" id="year-select" class="nav-button">
-                                @foreach ($years as $year)
-                                    <option value="{{ $year }}" @if ($year == $currentYear) selected @endif>{{ $year }}</option>
-                                @endforeach
-                            </select>
-                            <button type="submit" class="nav-button" style="margin-left:10px;">Go</button>
-                            <button type="button" id="cancel-button" class="nav-button" style="background-color: #dc2626; margin-left: 10px;">Cancel</button>
+                        <form id="calendar-form" action="{{ route('calendar') }}" method="GET">
+                            <div class="flex flex-col space-y-6">
+                                <h1>Pick the month and year of your choice</h1>
+                                <div class="grid grid-cols-2">
+                                    <div>
+                                        <label for="month-select">Month:</label>
+                                        <select name="month" id="month-select" class="cal-button">
+                                            @foreach ($months as $num => $name)
+                                            <option value="{{ str_pad($num, 2, '0', STR_PAD_LEFT) }}" @if ($num == $currentMonthNumber) selected @endif>{{ $name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="year-select">Year:</label>
+                                        <select name="year" id="year-select" class="nav-button w-30">
+                                            @foreach ($years as $year)
+                                            <option value="{{ $year }}" @if ($year == $currentYear) selected @endif>{{ $year }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="space-x-4">
+                                    <button type="submit" class="nav-button">Go</button>
+                                    <button type="button" id="cancel-button" class="nav-button">Cancel</button>
+                                </div>
+                                    
+                            </div>
                         </form>
                     </div>
-                </div>
+            </div>
+
             </div>
             <a href="{{ route('calendar', ['year' => $nextMonthDate->year, 'month' => $nextMonthDate->format('m')]) }}" class="nav-button">Next &raquo;</a>
         </div>
