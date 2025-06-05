@@ -7,21 +7,6 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    // public function index()
-    // {
-    //     $user = Auth::user();
-        
-    //     $query = Transaction::with('category')->where('user_id', $user->id);
-        
-    //     $totalCashIn = (clone $query)->where('type', 'cash_in')->sum('amount');
-    //     $totalCashOut = (clone $query)->where('type', 'cash_out')->sum('amount');
-
-
-    //     return view('dashboard', [
-    //         'totalCashIn' => $totalCashIn,
-    //         'totalCashOut' => $totalCashOut,
-    //     ]);
-    // }
     public function index()
 {
     $user = Auth::user();

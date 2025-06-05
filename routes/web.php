@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
@@ -24,6 +25,10 @@ Route::get('/', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::get('/calendar', [CalendarController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('calendar');
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('transactions', TransactionController::class);
