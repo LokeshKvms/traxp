@@ -9,8 +9,18 @@
     $weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     // Calculate previous and next month for navigation
-    $prevMonth = $currentMonth->copy()->subMonth()->format('Y-m');
-    $nextMonth = $currentMonth->copy()->addMonth()->format('Y-m');
+    $prevMonthDate = $currentMonth->copy()->subMonth();
+    $nextMonthDate = $currentMonth->copy()->addMonth();
+
+    // For dropdown
+    $currentYear = $currentMonth->year;
+    $currentMonthNumber = $currentMonth->month;
+    $years = range($currentYear - 5, $currentYear + 5);
+    $months = [
+        1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April',
+        5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August',
+        9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'
+    ];
 @endphp
 
 <style>
@@ -31,7 +41,7 @@
     .cash-in { color: green; font-weight: 900; text-align: center; }
     .cash-out { color: red;  font-weight: 900; text-align: center; }
     .empty-day { background-color: #fafafa; }
-    .navigation { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .navigation { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
     .nav-button {
         background-color: #1d4ed8;
         color: white;
@@ -39,17 +49,90 @@
         border-radius: 5px;
         text-decoration: none;
         font-weight: 600;
+        cursor: pointer;
     }
+
+    /* Dropdown styles */
+    #calendar-form select {
+        font-weight: 600;
+        border-radius: 5px;
+        border: none;
+        background-color: #1d4ed8;
+        color: white;
+        padding: 6px 10px;
+        cursor: pointer;
+    }
+
+    #calendar-form button {
+        font-weight: 600;
+        border-radius: 5px;
+        border: none;
+        color: white;
+        cursor: pointer;
+    }
+
+    #calendar-form button[type="submit"] {
+        background-color: #2563eb;
+    }
+
+    #cancel-button {
+        background-color: #dc2626;
+    }
+
+    .modal {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-color: rgba(0,0,0,0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 20px 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    /* Utility class to hide modal */
+    .hidden {
+        display: none !important;
+    }
+
 </style>
 
 <x-app-layout>
     <x-slot name="header">
         <div class="navigation">
-            <a href="{{ route('calendar', ['month' => $prevMonth]) }}" class="nav-button">&laquo; Prev</a>
-            <h2 class="font-semibold text-2xl text-gray-900 leading-tight">
-                {{ $currentMonth->format('F Y').' Transactions Calendar' }}
-            </h2>
-            <a href="{{ route('calendar', ['month' => $nextMonth]) }}" class="nav-button">Next &raquo;</a>
+            <a href="{{ route('calendar', ['year' => $prevMonthDate->year, 'month' => $prevMonthDate->format('m')]) }}" class="nav-button">&laquo; Prev</a>
+            <div id="calendar-header" style="cursor:pointer; user-select:none; flex-grow:1; text-align:center;">
+                <h2 id="calendar-title" class="font-semibold text-2xl text-gray-900 leading-tight">
+                    {{ $currentMonth->format('F Y') }} Transactions Calendar
+                </h2>
+
+                <!-- Modal background -->
+                <div id="calendar-modal" class="modal hidden">
+                    <div class="modal-content">
+                        <form id="calendar-form" action="{{ route('calendar') }}" method="GET" style="margin-top: 0;">
+                            <select name="month" id="month-select" class="nav-button" style="margin-right:5px;">
+                                @foreach ($months as $num => $name)
+                                    <option value="{{ str_pad($num, 2, '0', STR_PAD_LEFT) }}" @if ($num == $currentMonthNumber) selected @endif>{{ $name }}</option>
+                                @endforeach
+                            </select>
+                            <select name="year" id="year-select" class="nav-button">
+                                @foreach ($years as $year)
+                                    <option value="{{ $year }}" @if ($year == $currentYear) selected @endif>{{ $year }}</option>
+                                @endforeach
+                            </select>
+                            <button type="submit" class="nav-button" style="margin-left:10px;">Go</button>
+                            <button type="button" id="cancel-button" class="nav-button" style="background-color: #dc2626; margin-left: 10px;">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <a href="{{ route('calendar', ['year' => $nextMonthDate->year, 'month' => $nextMonthDate->format('m')]) }}" class="nav-button">Next &raquo;</a>
         </div>
     </x-slot>
 
@@ -62,7 +145,6 @@
                     <div class="weekday">{{ $day }}</div>
                 @endforeach
 
-                {{-- Calculate the day of week for the 1st of the month --}}
                 @php
                     $firstDayOfWeek = $startOfMonth->dayOfWeek; // 0 (Sun) to 6 (Sat)
                 @endphp
@@ -105,4 +187,30 @@
 
         </div> 
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const title = document.getElementById('calendar-title');
+            const modal = document.getElementById('calendar-modal');
+            const cancelBtn = document.getElementById('cancel-button');
+
+            // Open modal on title click
+            title.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+            });
+
+            // Close modal on cancel button
+            cancelBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+
+            // Optional: close modal when clicking outside form content
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+        });
+
+    </script>
 </x-app-layout>

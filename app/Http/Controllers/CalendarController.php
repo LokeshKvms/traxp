@@ -10,13 +10,18 @@ class CalendarController extends Controller
 {
     public function index(Request $request)
     {
-        // Read month from query param or default to current month (format: Y-m)
-        $month = $request->query('month', Carbon::now()->format('Y-m'));
+        // Get month and year from query parameters
+        $year = $request->query('year');
+        $month = $request->query('month');
 
-        // Create Carbon instance from month string
-        $currentMonth = Carbon::createFromFormat('Y-m', $month);
+        if ($year && $month) {
+            // Create Carbon instance from separate year and month
+            $currentMonth = Carbon::createFromDate($year, $month, 1);
+        } else {
+            // fallback to current month if no query params
+            $currentMonth = Carbon::now()->startOfMonth();
+        }
 
-        // Get start and end of the current month
         $startOfMonth = $currentMonth->copy()->startOfMonth();
         $endOfMonth = $currentMonth->copy()->endOfMonth();
 
@@ -38,7 +43,6 @@ class CalendarController extends Controller
             ];
         }
 
-        // Pass data and current month to the view
         return view('calendar', compact('data', 'currentMonth'));
     }
 }
