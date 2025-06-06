@@ -210,7 +210,7 @@
                             onclick="window.location='{{ route('transactions.show', $t) }}'"
                             >
                             <td class="px-6 py-4 whitespace-nowrap">{{ $loop->iteration }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ \Carbon\Carbon::parse($t->transaction_date)->format('Y-m-d h:i A') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ \Carbon\Carbon::parse($t->transaction_date)->format('F j, Y') }}<br>{{ \Carbon\Carbon::parse($t->transaction_date)->format('h:i A') }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $t->category->name ?? '-' }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $t->desc ?? '-' }}</td>
                             <td class="px-6 py-4 whitespace-nowrap font-semibold bg-green-50 text-green-600">{{ $t->type === 'cash_in' ? '+ ₹'.number_format($t->amount, 2) : '' }}</td>
