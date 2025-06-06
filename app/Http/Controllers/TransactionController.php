@@ -144,7 +144,6 @@ class TransactionController extends Controller
         $transaction = Transaction::where('user_id', auth()->id())->findOrFail($id);
         // $categories = Category::orderBy('name')->get();
         $categories = Category::orderBy('name')->get()->groupBy('type');
-
         return view('transactions.edit', compact('transaction', 'categories'));
     }
 

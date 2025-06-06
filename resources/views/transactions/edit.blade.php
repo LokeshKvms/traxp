@@ -10,7 +10,7 @@
             @method('PUT')
 
             {{-- Type --}}
-            <div class="mb-4">
+            {{-- <div class="mb-4">
                 <label for="type" class="block font-medium text-gray-700 mb-1">Transaction Type</label>
                 <select id="type" name="type" required
                     class="block w-full rounded-md border-gray-300 focus:border-gray-500 focus:ring-gray-500">
@@ -21,7 +21,32 @@
                 @error('type')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror
+            </div> --}}
+            {{-- Type --}}
+            <div class="mb-4">
+                <label class="block font-medium text-gray-700 mb-1">Transaction Type</label>
+
+                {{-- Hidden input to store the actual type --}}
+                <input type="hidden" id="type" name="type" value="{{ old('type', $transaction->type) }}">
+
+                <div class="flex space-x-4">
+                    <button type="button" id="cash_in_btn" class="px-4 py-2 rounded-md w-1/2 font-semibold text-white 
+                                {{ old('type') === 'cash_in' ? 'bg-green-600' : 'bg-green-300' }} 
+                                hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600"
+                    >Cash In</button>
+
+                    <button type="button" id="cash_out_btn"
+                            class="px-4 py-2 rounded-md w-1/2 font-semibold text-white 
+                                {{ old('type') === 'cash_out' ? 'bg-red-600' : 'bg-red-300' }} 
+                                hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600"
+                    >Cash Out</button>
+                </div>
+
+                @error('type')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
+
 
             {{-- Amount --}}
             <div class="grid grid-cols-2 gap-4">
