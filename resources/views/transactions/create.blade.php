@@ -37,15 +37,6 @@
                 <div class="mb-4">
                     <label for="category_id" class="block font-medium text-gray-900 mb-1">Category</label>
                     
-                    {{-- <select id="category_id" name="category_id" required
-                        class="block w-full rounded-md border border-gray-300 bg-white text-gray-900 focus:border-black focus:ring-black">
-                        <option value="">-- Select Category --</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>
-                                {{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select> --}}
                     <select id="category_id" name="category_id" required
                         class="block w-full rounded-md border border-gray-300 bg-white text-gray-900 focus:border-black focus:ring-black">
                         <option value="">-- Select Category --</option>
@@ -91,35 +82,6 @@
 
 
 <script>
-    const categoriesByType = @json($categories);
-
-    const typeSelect = document.getElementById('type');
-    const categorySelect = document.getElementById('category_id');
-
-    function populateCategories(type) {
-        categorySelect.innerHTML = '<option value="">-- Select Category --</option>';
-
-        if (categoriesByType[type]) {
-            categoriesByType[type].forEach(cat => {
-                const option = document.createElement('option');
-                option.value = cat.id;
-                option.textContent = cat.name;
-                option.selected = {{ json_encode(old('category_id')) }} == cat.id; // pre-select on validation fail
-                categorySelect.appendChild(option);
-            });
-        }
-    }
-
-    // Populate on page load (e.g., after validation errors)
-    document.addEventListener('DOMContentLoaded', function () {
-        const selectedType = typeSelect.value;
-        if (selectedType) {
-            populateCategories(selectedType);
-        }
-    });
-
-    // Update on change
-    typeSelect.addEventListener('change', function () {
-        populateCategories(this.value);
-    });
+    window.categoriesByType = @json($categories);
+    window.oldCategoryId = "{{ old('category_id') }}";
 </script>

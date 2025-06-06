@@ -38,13 +38,6 @@
                 {{-- Category --}}
                 <div class="mb-4">
                     <label for="category_id" class="block font-medium text-gray-700 mb-1">Category</label>
-                    {{-- <select id="category_id" name="category_id" required
-                        class="block w-full rounded-md border-gray-300 focus:border-gray-500 focus:ring-gray-500">
-                        <option value="">-- Select Category --</option>
-                        @foreach($categories as $category)
-                        <option value="{{ $category->id }}" @selected(old('category_id', $transaction->category_id) == $category->id)>{{ $category->name }}</option>
-                        @endforeach
-                    </select> --}}
                     <select id="category_id" name="category_id" required
                         class="block w-full rounded-md border border-gray-300 bg-white text-gray-900 focus:border-black focus:ring-black"
                         data-old="{{ old('category_id') }}">
@@ -91,38 +84,6 @@
 
 
 <script>
-    const categoriesByType = @json($categories);
-    const selectedCategoryId = "{{ old('category_id', $transaction->category_id) }}"; // fallback to existing
-
-    const typeSelect = document.getElementById('type');
-    const categorySelect = document.getElementById('category_id');
-
-    function populateCategories(type) {
-        categorySelect.innerHTML = '<option value="">-- Select Category --</option>';
-
-        if (categoriesByType[type]) {
-            categoriesByType[type].forEach(cat => {
-                const option = document.createElement('option');
-                option.value = cat.id;
-                option.textContent = cat.name;
-
-                if (parseInt(selectedCategoryId) === cat.id) {
-                    option.selected = true;
-                }
-
-                categorySelect.appendChild(option);
-            });
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const selectedType = typeSelect.value;
-        if (selectedType) {
-            populateCategories(selectedType);
-        }
-    });
-
-    typeSelect.addEventListener('change', function () {
-        populateCategories(this.value);
-    });
+    window.categoriesByType = @json($categories);
+    window.selectedCategoryId = "{{ old('category_id', $transaction->category_id) }}";
 </script>
