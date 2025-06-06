@@ -94,8 +94,8 @@ class TransactionController extends Controller
             return Response::stream($callback, 200, $headers);
         }
 
-        $transactions = $query->orderBy('transaction_date', 'desc')->paginate(5)->withQueryString();
-        $categories = Category::orderBy('name')->get();
+        $transactions = $query->orderBy('transaction_date', direction: 'desc')->paginate(5)->withQueryString();
+        $categories = Category::orderBy('type')->get();
 
         return view('transactions.index', compact(
             'transactions', 'categories', 'filter', 'search',

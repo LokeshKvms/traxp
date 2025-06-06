@@ -74,7 +74,7 @@
                 >
                 <option value="" disabled selected class="text-gray-400">Choose Category</option>
                     @foreach($categories as $cat)
-                        <option value="{{ $cat->id }}" @selected($categoryId == $cat->id)>{{ $cat->name }}</option>
+                        <option value="{{ $cat->id }}" class="{{ $cat->type === 'cash_in' ? 'bg-teal-50' : 'bg-red-50'}}" @selected($categoryId == $cat->id)>{{ $cat->name }}</option>
                     @endforeach
                 </select>
             </form>
