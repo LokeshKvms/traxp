@@ -1,18 +1,12 @@
 @php
-    use Carbon\Carbon;
-
-    // Use currentMonth from controller
     $startOfMonth = $currentMonth->copy()->startOfMonth();
     $endOfMonth = $currentMonth->copy()->endOfMonth();
 
-    // Weekday labels
     $weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-    // Calculate previous and next month for navigation
     $prevMonthDate = $currentMonth->copy()->subMonth();
     $nextMonthDate = $currentMonth->copy()->addMonth();
 
-    // For dropdown
     $currentYear = $currentMonth->year;
     $currentMonthNumber = $currentMonth->month;
     $years = range($currentYear - 5, $currentYear + 5);
@@ -23,101 +17,9 @@
     ];
 @endphp
 
-<style>
-    .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
-    .weekday { border: 1px solid #ccc; padding: 10px; min-height: 50px; position: relative; }
-    .day, .day a {
-        border: 1px solid #ccc;
-        padding: 10px;
-        min-height: 100px;
-        position: relative;
-        display: block;
-        text-decoration: none;
-        color: inherit;
-        cursor: pointer;
-    }
-    .weekday { font-weight: bold; background-color: #f0f0f0; text-align: center; }
-    .date-number { font-weight: bold; margin-bottom: 5px; }
-    .cash-in { color: green; font-weight: 900; text-align: center; }
-    .cash-out { color: red;  font-weight: 900; text-align: center; }
-    .empty-day { background-color: #fafafa; }
-    .navigation { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
-    .nav-button {
-        background-color: black;
-        color: white;
-        padding: 6px 12px;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: 600;
-        cursor: pointer;
-    }
-
-    .cal-button {
-        background-color: black;
-        color: white;
-        padding: 6px 12px;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: 600;
-        cursor: pointer;
-    }
-
-    /* Dropdown styles */
-    #calendar-form select {
-        font-weight: 600;
-        width: 200px;
-        border-radius: 5px;
-        border: none;
-        color: white;
-        padding: 6px 10px;
-        cursor: pointer;
-    }
-
-    #calendar-form button {
-        font-weight: 600;
-        border-radius: 5px;
-        border: none;
-        color: white;
-        cursor: pointer;
-    }
-
-    #calendar-form button[type="submit"] {
-        background-color: black;
-        width: 150px !important;
-    }
-
-    #cancel-button {
-        background-color: #dc2626;
-        width: 150px !important;
-    }
-
-    .modal {
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background-color: rgba(0,0,0,0.4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-    }
-
-    .modal-content {
-        background: rgb(250, 250, 250);
-        padding: 20px 30px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-
-    /* Utility class to hide modal */
-    .hidden {
-        display: none !important;
-    }
-
-</style>
-
 <x-app-layout>
     <x-slot name="header">
-        <div class="navigation">
+        <div class="navigations">
             <a href="{{ route('calendar', ['year' => $prevMonthDate->year, 'month' => $prevMonthDate->format('m')]) }}" class="nav-button">&laquo; Prev</a>
             <div id="calendar-header" style="cursor:pointer; user-select:none; flex-grow:1; text-align:center;">
                 <h2 id="calendar-title" class="font-semibold text-2xl text-gray-900 leading-tight">
@@ -125,7 +27,7 @@
                 </h2>
 
                 <!-- Modal background -->
-                <div id="calendar-modal" class="modal hidden">
+                <div id="calendar-modal" class="modal hiddens">
                     <div class="modal-content">
                         <form id="calendar-form" action="{{ route('calendar') }}" method="GET">
                             <div class="flex flex-col space-y-6">
@@ -163,7 +65,12 @@
         </div>
     </x-slot>
 
-    <div class="py-12 px-6 pl-10 min-h-screen">
+    <div class="py-3 px-6 pl-10 min-h-screen">
+        
+        <div class="text-center mb-4">
+            <x-balance-summary-bar :$totalCashIn :$totalCashOut :$balance/>
+        </div>
+
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 py-8 bg-white space-y-16">
 
             <div class="calendar">
@@ -189,9 +96,10 @@
                         $startDate = $date->format('Y-m-d');
                         $endDate = $date->copy()->addDay()->format('Y-m-d');
                         $url = route('transactions.index') . "?filter=custom&start_date={$startDate}&end_date={$endDate}";
+                        $isToday = $date->isToday();
                     @endphp
 
-                    <a href="{{ $url }}" class="day">
+                    <a href="{{ $url }}" class="day {{ $isToday ? 'bg-indigo-50' : '' }}">
                         <div class="date-number">{{ $day }}</div>
 
                         @if (isset($data[$key]))
@@ -212,32 +120,9 @@
                 @endfor
             </div>
 
-        </div> 
+        </div>
+
+        
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const title = document.getElementById('calendar-title');
-            const modal = document.getElementById('calendar-modal');
-            const cancelBtn = document.getElementById('cancel-button');
-
-            // Open modal on title click
-            title.addEventListener('click', () => {
-                modal.classList.remove('hidden');
-            });
-
-            // Close modal on cancel button
-            cancelBtn.addEventListener('click', () => {
-                modal.classList.add('hidden');
-            });
-
-            // Optional: close modal when clicking outside form content
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.add('hidden');
-                }
-            });
-        });
-
-    </script>
 </x-app-layout>

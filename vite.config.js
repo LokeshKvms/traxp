@@ -11,4 +11,13 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        host: 'localhost',       // use 'localhost' instead of default [::1]
+        port: 5173,
+        strictPort: true,
+        cors: true,              // enable CORS headers
+        watch: {
+            usePolling: true,    // optional but recommended on some systems
+        },
+    },
 });

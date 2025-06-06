@@ -36,13 +36,20 @@ class CalendarController extends Controller
             ->get();
 
         $data = [];
+        $totalCashIn = 0;
+        $totalCashOut = 0;
         foreach ($transactions as $t) {
             $data[$t->date] = [
                 'cash_in' => $t->cash_in,
                 'cash_out' => $t->cash_out,
             ];
+
+            $totalCashIn += $t->cash_in;
+            $totalCashOut += $t->cash_out;
         }
 
-        return view('calendar', compact('data', 'currentMonth'));
+        $balance = $totalCashIn - $totalCashOut;
+
+        return view('calendar', compact('data', 'currentMonth','totalCashIn','totalCashOut', 'balance'));
     }
 }
