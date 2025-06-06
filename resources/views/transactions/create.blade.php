@@ -3,20 +3,35 @@
         <h2 class="font-semibold text-xl text-gray-900 leading-tight">Add Transaction</h2>
     </x-slot>
 
-    <div class="py-6 max-w-4xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-6 max-w-2xl mx-auto sm:px-6 lg:px-8">
         <form action="{{ route('transactions.store') }}" method="POST"
               class="bg-white shadow-md rounded-lg p-6">
             @csrf
 
             {{-- Type --}}
             <div class="mb-4">
-                <label for="type" class="block font-medium text-gray-900 mb-1">Transaction Type</label>
-                <select id="type" name="type" required
-                        class="block w-full rounded-md border border-gray-300 bg-white text-gray-900 focus:border-black focus:ring-black">
-                    <option value="">-- Select Type --</option>
-                    <option value="cash_in" @selected(old('type') === 'cash_in')>Cash In</option>
-                    <option value="cash_out" @selected(old('type') === 'cash_out')>Cash Out</option>
-                </select>
+                <label class="block font-medium text-gray-900 mb-1">Transaction Type</label>
+                <input type="hidden" id="type" name="type" value="{{ old('type') }}" required />
+
+                <div class="flex space-x-4 mx-10 justify-center">
+                    <button type="button" 
+                            id="btn-cash-in" 
+                            class="px-4 py-2 rounded-md w-1/2 font-semibold text-white 
+                                {{ old('type') === 'cash_in' ? 'bg-green-600' : 'bg-green-300' }} 
+                                hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600"
+                            data-type="cash_in">
+                        Cash In
+                    </button>
+
+                    <button type="button" 
+                            id="btn-cash-out" 
+                            class="px-4 py-2 rounded-md w-1/2 font-semibold text-white 
+                                {{ old('type') === 'cash_out' ? 'bg-red-600' : 'bg-red-300' }} 
+                                hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600"
+                            data-type="cash_out">
+                        Cash Out
+                    </button>
+                </div>
                 @error('type')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -79,7 +94,6 @@
         </form>
     </div>
 </x-app-layout>
-
 
 <script>
     window.categoriesByType = @json($categories);
