@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\Category;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
@@ -106,7 +107,8 @@ class TransactionController extends Controller
 
     public function create()
     {
-        $categories = Category::orderBy('name')->get();
+        // $categories = Category::orderBy('name')->get();
+        $categories = Category::orderBy('name')->get()->groupBy('type');
         return view('transactions.create', compact('categories'));
     }
 
@@ -114,11 +116,16 @@ class TransactionController extends Controller
     {
         $validated = $request->validate([
             'type' => 'required|in:cash_in,cash_out',
-
             'amount' => 'required|numeric|min:0.01',
             'desc' => 'nullable|string|max:255',
             'transaction_date' => 'required|date',
-            'category_id' => 'required|exists:categories,id',
+            // 'category_id' => 'required|exists:categories,id',
+            'category_id' => [
+                    'required',
+                    Rule::exists('categories', 'id')->where(function ($query) use ($request) {
+                        $query->where('type', $request->type);
+                    }),
+                ],
         ]);
 
         $request->user()->transactions()->create($validated);
@@ -135,7 +142,8 @@ class TransactionController extends Controller
     public function edit($id)
     {
         $transaction = Transaction::where('user_id', auth()->id())->findOrFail($id);
-        $categories = Category::orderBy('name')->get();
+        // $categories = Category::orderBy('name')->get();
+        $categories = Category::orderBy('name')->get()->groupBy('type');
 
         return view('transactions.edit', compact('transaction', 'categories'));
     }
