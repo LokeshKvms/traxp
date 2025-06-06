@@ -190,16 +190,16 @@
 
         {{-- Transactions Table --}}
         <div class="bg-white shadow rounded-lg overflow-x-auto border border-gray-200">
-            <table class="min-w-full divide-y divide-gray-200 text-sm text-center">
+            <table class="min-w-full divide-y divide-gray-200 text-sm text-center" id='expTable'>
                 
                 <thead class="bg-gray-800 text-center">
                     <tr>
-                        <th class="px-6 py-3 font-semibold text-white">S. No</th>
-                        <th class="px-6 py-3 font-semibold text-white">Date</th>
-                        <th class="px-6 py-3 font-semibold text-white">Category</th>
-                        <th class="px-6 py-3 font-semibold text-white">Reason</th>
-                        <th class="px-6 py-3 font-semibold text-white">Cash In</th>
-                        <th class="px-6 py-3 font-semibold text-white">Cash Out</th>
+                        <th class="px-6 py-3 font-semibold text-white cursor-pointer">S. No</th>
+                        <th class="px-6 py-3 font-semibold text-white cursor-pointer">Date</th>
+                        <th class="px-6 py-3 font-semibold text-white cursor-pointer">Category</th>
+                        <th class="px-6 py-3 font-semibold text-white cursor-pointer">Reason</th>
+                        <th class="px-6 py-3 font-semibold text-white cursor-pointer">Cash In</th>
+                        <th class="px-6 py-3 font-semibold text-white cursor-pointer">Cash Out</th>
                     </tr>
                 </thead>
                 
@@ -235,7 +235,21 @@
     </div>
 </x-app-layout>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
 <script>
+    $(document).ready(function() {
+        if ($('#expTable tbody tr').length > 1 || !$('#expTable tbody tr td').hasClass('text-center')) {
+            $('#expTable').DataTable({
+                paging: false,
+                searching: false,
+                info: false,
+                ordering: true,
+            });
+        }
+    });
     const openModalBtn = document.getElementById('openCustomDateModal');
     const closeModalBtn = document.getElementById('closeCustomDateModal');
     const modal = document.getElementById('customDateModal');
