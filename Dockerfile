@@ -31,8 +31,8 @@ RUN chown -R www-data:www-data /var/www/html \
 RUN composer install --no-dev --optimize-autoloader
 
 # Uncomment if you want to build frontend assets during build
-RUN npm install
-RUN npm run prod
+# RUN npm install
+# RUN npm run prod
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
