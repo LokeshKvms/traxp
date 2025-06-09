@@ -10,15 +10,15 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
                 <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
                     <h3 class="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">Total Cash In</h3>
-                    <p class="text-3xl font-bold text-green-500">${{ number_format($totalCashIn, 2) }}</p>
+                    <p class="text-3xl font-bold text-green-500">₹{{ number_format($totalCashIn, 2) }}</p>
                 </div>
                 <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
                     <h3 class="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">Total Cash Out</h3>
-                    <p class="text-3xl font-bold text-red-500">${{ number_format($totalCashOut, 2) }}</p>
+                    <p class="text-3xl font-bold text-red-500">₹{{ number_format($totalCashOut, 2) }}</p>
                 </div>
                 <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
                     <h3 class="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">Balance</h3>
-                    <p class="text-3xl font-bold text-gray-900 dark:text-gray-100">${{ number_format($balance, 2) }}</p>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-gray-100">₹{{ number_format($balance, 2) }}</p>
                 </div>
             </div>
 
@@ -83,7 +83,7 @@
                             label: context => {
                                 const label = context.label || '';
                                 const value = context.parsed || 0;
-                                return `${label}: $${value.toLocaleString()}`;
+                                return `${label}: ₹${value.toLocaleString()}`;
                             }
                         }
                     },
@@ -107,7 +107,7 @@
                     },
                     tooltip: {
                         callbacks: {
-                            label: ctx => `$${ctx.parsed.y.toLocaleString()}`
+                            label: ctx => `₹${ctx.parsed.y.toLocaleString()}`
                         }
                     }
                 },
