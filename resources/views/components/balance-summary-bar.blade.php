@@ -13,7 +13,7 @@
     </div>
     <div>
         {{-- <span class="text-gray-900 font-semibold">Balance:</span> ₹{{ number_format($balance, 2) }} --}}
-        <span class="text-gray-900 font-bold">Balance:</span>
+        <span class="text-gray-900 font-bold">Net Amount:</span>
         <span class="font-bold {{ $balanceClass }}">₹{{ number_format($balance, 2) }}</span>
     </div>
 </div>
