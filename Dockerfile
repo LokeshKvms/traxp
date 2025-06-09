@@ -16,7 +16,7 @@ RUN chown -R www-data:www-data /var/www/html \
 RUN composer install --no-dev --optimize-autoloader
 
 # Uncomment if you want to build frontend assets on Render
-# RUN npm install && npm run prod
+RUN npm install && npm run prod
 
 EXPOSE 9000
 
