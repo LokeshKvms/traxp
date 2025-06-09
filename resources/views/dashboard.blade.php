@@ -5,8 +5,8 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 px-6 pl-10 min-h-screen">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-16">
+    <div class="py-12 px-4 sm:px-6 lg:px-8 min-h-screen">
+        <div class="max-w-7xl mx-auto space-y-16">
 
             <x-card-row heading="Daily">
                     <x-card link="/transactions?filter=daily" :front="'Daily Income'" :back="$totalCashInDaily" type="cash-in" />
