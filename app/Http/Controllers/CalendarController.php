@@ -31,6 +31,7 @@ class CalendarController extends Controller
             ->selectRaw('SUM(CASE WHEN type = "cash_in" THEN amount ELSE 0 END) as cash_in')
             ->selectRaw('SUM(CASE WHEN type = "cash_out" THEN amount ELSE 0 END) as cash_out')
             ->whereBetween('transaction_date', [$startOfMonth->toDateString(), $endOfMonth->toDateString()])
+            ->where('user_id',auth()->id())
             ->groupBy(DB::raw('DATE(transaction_date)'))
             ->orderBy('date')
             ->get();

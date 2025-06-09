@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InsightController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,10 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::get('/calendar', [CalendarController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('calendar');
+
+Route::get('/insights', [InsightController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('insights');
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('transactions', TransactionController::class);

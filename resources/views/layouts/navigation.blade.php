@@ -23,6 +23,10 @@
                     <x-nav-link :href="route('calendar')" :active="request()->routeIs('calendar')">
                         {{ __('Calendar') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('insights')" :active="request()->routeIs('insights')">
+                        {{ __('Insights') }}
+                    </x-nav-link>
                 </div>
             </div>
 

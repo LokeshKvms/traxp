@@ -62,18 +62,13 @@ class DashboardController extends Controller
         ->whereDate('transaction_date', now()->toDateString())
         ->sum('amount');
 
-    return view('dashboard', [
-        'totalCashIn' => $totalCashIn,
-        'totalCashOut' => $totalCashOut,
-        'totalCashInYearly' => $totalCashInYearly,
-        'totalCashOutYearly' => $totalCashOutYearly,
-        'totalCashInMonthly' => $totalCashInMonthly,
-        'totalCashOutMonthly' => $totalCashOutMonthly,
-        'totalCashInWeekly' => $totalCashInWeekly,
-        'totalCashOutWeekly' => $totalCashOutWeekly,
-        'totalCashInDaily' => $totalCashInDaily,
-        'totalCashOutDaily' => $totalCashOutDaily,
-    ]);
+    return view('dashboard', compact(
+        'totalCashIn', 'totalCashOut',
+        'totalCashInYearly', 'totalCashOutYearly',
+        'totalCashInMonthly', 'totalCashOutMonthly',
+        'totalCashInWeekly', 'totalCashOutWeekly',
+        'totalCashInDaily', 'totalCashOutDaily'
+    ));
 }
 
 
