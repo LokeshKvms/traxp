@@ -28,11 +28,15 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-4 px-4">
-            <a href="{{ route('calendar', ['year' => $prevMonthDate->year, 'month' => $prevMonthDate->format('m')]) }}"
-                class="bg-black text-white font-semibold px-4 py-2 rounded hover:bg-gray-800">&laquo; Prev</a>
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-4 px-4">
+            <div class="w-full md:w-auto">
+                <a href="{{ route('calendar', ['year' => $prevMonthDate->year, 'month' => $prevMonthDate->format('m')]) }}"
+                    class="block text-center bg-black text-white font-semibold px-4 py-2 rounded hover:bg-gray-800 w-full md:w-auto">
+                    &laquo; Prev
+                </a>
+            </div>
 
-            <div id="calendar-header" class="flex-grow text-center cursor-pointer select-none">
+            <div id="calendar-header" class="text-center flex-grow cursor-pointer select-none">
                 <h2 class="font-semibold text-2xl text-gray-900 leading-tight">
                     {{ $currentMonth->format('F Y') }} Transactions Calendar
                 </h2>
@@ -43,7 +47,7 @@
                     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
                         <form id="calendar-form" action="{{ route('calendar') }}" method="GET" class="space-y-6">
                             <h1 class="text-xl font-bold">Pick the month and year of your choice</h1>
-                            <div class="grid grid-cols-2 gap-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label for="month-select" class="block font-semibold mb-1">Month:</label>
                                     <select name="month" id="month-select"
@@ -68,13 +72,13 @@
                                 </div>
                             </div>
 
-                            <div class="flex justify-between gap-4">
+                            <div class="flex flex-col sm:flex-row justify-between gap-4">
                                 <button type="submit"
-                                    class="bg-black text-white font-semibold px-6 py-2 rounded hover:bg-gray-800 w-full">
+                                    class="bg-black text-white font-semibold px-6 py-2 rounded hover:bg-gray-800 w-full sm:w-auto">
                                     Go
                                 </button>
                                 <button type="button" id="cancel-button"
-                                    class="bg-red-600 text-white font-semibold px-6 py-2 rounded hover:bg-red-700 w-full">
+                                    class="bg-red-600 text-white font-semibold px-6 py-2 rounded hover:bg-red-700 w-full sm:w-auto">
                                     Cancel
                                 </button>
                             </div>
@@ -83,21 +87,27 @@
                 </div>
             </div>
 
-            <a href="{{ route('calendar', ['year' => $nextMonthDate->year, 'month' => $nextMonthDate->format('m')]) }}"
-                class="bg-black text-white font-semibold px-4 py-2 rounded hover:bg-gray-800">Next &raquo;</a>
+            <div class="w-full md:w-auto">
+                <a href="{{ route('calendar', ['year' => $nextMonthDate->year, 'month' => $nextMonthDate->format('m')]) }}"
+                    class="block text-center bg-black text-white font-semibold px-4 py-2 rounded hover:bg-gray-800 w-full md:w-auto">
+                    Next &raquo;
+                </a>
+            </div>
         </div>
     </x-slot>
 
-    <div class="py-3 px-4 sm:px-6 min-h-screen">
+
+    <div class="py-3 px-2 sm:px-4">
         <div class="text-center mb-4">
             <x-balance-summary-bar :$totalCashIn :$totalCashOut :$balance />
         </div>
 
-        <div class="max-w-5xl mx-auto bg-white py-6 px-4 sm:px-6 rounded-lg shadow space-y-6">
-            <div class="grid grid-cols-7 gap-2 text-xs sm:text-sm">
+        <div class="max-w-5xl mx-auto bg-white py-4 px-2 sm:px-6 rounded-lg shadow space-y-6">
+            <div class="grid grid-cols-7 gap-1 sm:gap-2 text-[10px] sm:text-xs md:text-sm">
                 {{-- Weekday headers --}}
                 @foreach ($weekDays as $day)
-                    <div class="font-bold bg-gray-200 border border-gray-300 p-3 text-center min-h-[50px]">
+                    <div
+                        class="font-bold bg-gray-200 border border-gray-300 p-1 sm:p-2 text-center min-h-[30px] sm:min-h-[40px] leading-tight text-[10px] sm:text-xs">
                         {{ $day }}
                     </div>
                 @endforeach
@@ -108,7 +118,7 @@
 
                 {{-- Empty cells before the first day of the month --}}
                 @for ($i = 0; $i < $firstDayOfWeek; $i++)
-                    <div class="bg-gray-50 border border-gray-300 min-h-[100px]"></div>
+                    <div class="bg-gray-50 border border-gray-300 min-h-[60px] sm:min-h-[80px] sm:text-wrap"></div>
                 @endfor
 
                 {{-- Days of the month --}}
@@ -124,15 +134,17 @@
                     @endphp
 
                     <a href="{{ $url }}"
-                        class="flex flex-col items-center justify-between border border-gray-300 rounded p-3 min-h-[100px] 
-                              {{ $isToday ? 'bg-indigo-100' : 'bg-gray-50' }} text-gray-900 no-underline hover:bg-indigo-50">
-                        <div class="font-bold mb-1">{{ $day }}</div>
+                        class="flex flex-col items-center justify-between overflow-clip border border-gray-300 rounded p-1 sm:p-2 min-h-[60px] sm:min-h-[80px]
+                              {{ $isToday ? 'bg-indigo-100' : 'bg-gray-50' }} text-gray-900 no-underline hover:bg-indigo-50 text-[10px] sm:text-xs text-center">
+                        <div class="font-bold mb-1 truncate">{{ $day }}</div>
 
                         @if (isset($data[$key]))
-                            <div class="text-green-600 font-semibold text-center">+
-                                ₹{{ number_format($data[$key]['cash_in'], 2) }}</div>
-                            <div class="text-red-600 font-semibold text-center">-
-                                ₹{{ number_format($data[$key]['cash_out'], 2) }}</div>
+                            <div class="text-green-600 font-semibold text-[10px] sm:text-xs truncate">
+                                ₹{{ number_format($data[$key]['cash_in']) }}
+                            </div>
+                            <div class="text-red-600 font-semibold text-[10px] sm:text-xs truncate">
+                                ₹{{ number_format($data[$key]['cash_out']) }}
+                            </div>
                         @endif
                     </a>
                 @endfor
@@ -144,7 +156,7 @@
 
                 {{-- Fill empty cells after the last day of the month --}}
                 @for ($i = 0; $i < $emptyAfter; $i++)
-                    <div class="bg-gray-50 border border-gray-300 min-h-[100px]"></div>
+                    <div class="bg-gray-50 border border-gray-300 min-h-[60px] sm:min-h-[80px]"></div>
                 @endfor
             </div>
         </div>
@@ -152,12 +164,15 @@
 
     {{-- Modal toggle script --}}
     <script>
-        document.getElementById('calendar-header').addEventListener('click', function() {
-            document.getElementById('calendar-modal').classList.remove('hidden');
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('calendar-header').addEventListener('click', function() {
+                document.getElementById('calendar-modal').classList.remove('hidden');
+            });
 
-        document.getElementById('cancel-button').addEventListener('click', function() {
-            document.getElementById('calendar-modal').classList.add('hidden');
+            document.getElementById('cancel-button').addEventListener('click', function(e) {
+                document.getElementById('calendar-modal').classList.add('hidden');
+                location.reload();
+            });
         });
     </script>
 </x-app-layout>
