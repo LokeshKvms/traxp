@@ -180,6 +180,42 @@
                 }
             };
 
+            const barOptionsCat = {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#4B5563',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => `₹${ctx.parsed.y.toLocaleString()}`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            color: '#4B5563',
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#4B5563'
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
+                }
+            };
+
             const lineOptions = {
                 responsive: true,
                 plugins: {
@@ -332,7 +368,7 @@
                         backgroundColor: '#ef4444',
                     }]
                 },
-                options: barOptions
+                options: barOptionsCat
             });
 
         });
