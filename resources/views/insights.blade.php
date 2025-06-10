@@ -16,7 +16,7 @@
                         Total Cash In
                     </h3>
                     <p class="text-3xl font-bold text-green-500 truncate">
-                        ₹{{ number_format($totalCashIn, 2) }}
+                        ₹{{ App\Helpers\NumberFormatter::formatIndianNumber($totalCashIn, 2) }}
                     </p>
                 </div>
 
@@ -26,7 +26,7 @@
                         Total Cash Out
                     </h3>
                     <p class="text-3xl font-bold text-red-500 truncate">
-                        ₹{{ number_format($totalCashOut, 2) }}
+                        ₹{{ App\Helpers\NumberFormatter::formatIndianNumber($totalCashOut, 2) }}
                     </p>
                 </div>
 
@@ -36,7 +36,7 @@
                         Balance
                     </h3>
                     <p class="text-3xl font-bold text-gray-900 dark:text-gray-100 truncate">
-                        ₹{{ number_format($balance, 2) }}
+                        ₹{{ App\Helpers\NumberFormatter::formatIndianNumber($balance, 2) }}
                     </p>
                 </div>
             </div>

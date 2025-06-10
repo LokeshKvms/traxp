@@ -140,10 +140,10 @@
 
                         @if (isset($data[$key]))
                             <div class="text-green-600 font-semibold text-[10px] sm:text-xs truncate">
-                                ₹{{ number_format($data[$key]['cash_in']) }}
+                                ₹{{ App\Helpers\NumberFormatter::formatIndianNumber($data[$key]['cash_in']) }}
                             </div>
                             <div class="text-red-600 font-semibold text-[10px] sm:text-xs truncate">
-                                ₹{{ number_format($data[$key]['cash_out']) }}
+                                ₹{{ App\Helpers\NumberFormatter::formatIndianNumber($data[$key]['cash_out']) }}
                             </div>
                         @endif
                     </a>

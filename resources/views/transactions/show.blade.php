@@ -12,7 +12,8 @@
             @endif
         </h1>
 
-        <div class="bg-white shadow-md rounded-lg p-6 sm:p-8 flex flex-col md:flex-row md:justify-between md:items-start">
+        <div
+            class="bg-white shadow-md rounded-lg p-6 sm:p-8 flex flex-col md:flex-row md:justify-between md:items-start">
             {{-- Left Column --}}
             <div class="md:w-1/2 space-y-6 md:space-y-8 md:border-r md:border-gray-200 md:pr-8 mb-6 md:mb-0">
                 <div>
@@ -39,9 +40,11 @@
                     <h3 class="text-gray-800 text-lg font-semibold mb-2">Amount</h3>
                     <p class="text-black font-extrabold text-3xl sm:text-4xl">
                         @if ($transaction->type === 'cash_in')
-                            + ₹ <span class="text-green-600">{{ number_format($transaction->amount, 2) }}</span>
+                            + ₹ <span
+                                class="text-green-600">{{ App\Helpers\NumberFormatter::formatIndianNumber($transaction->amount, 2) }}</span>
                         @else
-                            - ₹ <span class="text-red-600">{{ number_format($transaction->amount, 2) }}</span>
+                            - ₹ <span
+                                class="text-red-600">{{ App\Helpers\NumberFormatter::formatIndianNumber($transaction->amount, 2) }}</span>
                         @endif
                     </p>
                 </div>

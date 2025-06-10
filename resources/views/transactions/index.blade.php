@@ -19,7 +19,8 @@
     <div class="py-4 max-w-7xl px-4 mx-auto md:px-6 lg:px-8">
 
         {{-- Filter Buttons --}}
-        <div class="flex flex-wrap lg:flex-nowrap gap-4 p-4 mb-6 border border-gray-300 bg-white rounded-md shadow-sm items-center overflow-hidden min-w-0">
+        <div
+            class="flex flex-wrap lg:flex-nowrap gap-4 p-4 mb-6 border border-gray-300 bg-white rounded-md shadow-sm items-center overflow-hidden min-w-0">
             {{-- Dates Label --}}
             <label class="flex gap-2 w-full lg:w-auto items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24"
@@ -217,10 +218,10 @@
                             <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">{{ $t->desc ?? '-' }}</td>
 
                             <td class="px-6 py-4 whitespace-nowrap font-semibold bg-green-50 text-green-600">
-                                {{ $t->type === 'cash_in' ? '+ ₹' . number_format($t->amount, 2) : '' }}
+                                {{ $t->type === 'cash_in' ? '+ ₹' . App\Helpers\NumberFormatter::formatIndianNumber($t->amount, 2) : '' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap font-semibold bg-red-50 text-red-600">
-                                {{ $t->type === 'cash_out' ? '- ₹' . number_format($t->amount, 2) : '' }}
+                                {{ $t->type === 'cash_out' ? '- ₹' . App\Helpers\NumberFormatter::formatIndianNumber($t->amount, 2) : '' }}
                             </td>
                         </tr>
                     @empty

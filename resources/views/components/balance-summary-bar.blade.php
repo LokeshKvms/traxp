@@ -7,13 +7,13 @@
     flex flex-col md:flex-row md:justify-evenly text-gray-700 text-md font-bold
     space-y-4 md:space-y-0 md:space-x-6">
     <div class="text-center md:text-left">
-        <span class="text-green-600 font-bold">Total Cash In:</span> ₹{{ number_format($totalCashIn, 2) }}
+        <span class="text-green-600 font-bold">Total Cash In:</span> ₹{{ App\Helpers\NumberFormatter::formatIndianNumber($totalCashIn, 2) }}
     </div>
     <div class="text-center md:text-left">
-        <span class="text-red-600 font-bold">Total Cash Out:</span> ₹{{ number_format($totalCashOut, 2) }}
+        <span class="text-red-600 font-bold">Total Cash Out:</span> ₹{{ App\Helpers\NumberFormatter::formatIndianNumber($totalCashOut, 2) }}
     </div>
     <div class="text-center md:text-left">
         <span class="text-gray-900 font-bold">Net Amount:</span>
-        <span class="font-bold {{ $balanceClass }}">₹{{ number_format($balance, 2) }}</span>
+        <span class="font-bold {{ $balanceClass }}">₹{{ App\Helpers\NumberFormatter::formatIndianNumber($balance, 2) }}</span>
     </div>
 </div>
