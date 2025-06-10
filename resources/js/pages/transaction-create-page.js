@@ -32,15 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
         hiddenInput.value = type;
 
         if (type === "cash_in") {
-            btnCashIn.classList.remove("bg-green-300");
+            btnCashIn.classList.remove("bg-green-400");
             btnCashIn.classList.add("bg-green-600");
             btnCashOut.classList.remove("bg-red-600");
-            btnCashOut.classList.add("bg-red-300");
+            btnCashOut.classList.add("bg-red-400");
         } else if (type === "cash_out") {
-            btnCashOut.classList.remove("bg-red-300");
+            btnCashOut.classList.remove("bg-red-400");
             btnCashOut.classList.add("bg-red-600");
             btnCashIn.classList.remove("bg-green-600");
-            btnCashIn.classList.add("bg-green-300");
+            btnCashIn.classList.add("bg-green-400");
         }
 
         updateCategoryOptions(type);

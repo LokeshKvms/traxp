@@ -28,15 +28,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateButtonStyles(selectedType) {
         if (selectedType === "cash_in") {
-            cashInBtn.classList.remove("bg-green-300");
+            cashInBtn.classList.remove("bg-green-400");
             cashInBtn.classList.add("bg-green-600");
             cashOutBtn.classList.remove("bg-red-600");
-            cashOutBtn.classList.add("bg-red-300");
+            cashOutBtn.classList.add("bg-red-400");
         } else if (selectedType === "cash_out") {
-            cashOutBtn.classList.remove("bg-red-300");
+            cashOutBtn.classList.remove("bg-red-400");
             cashOutBtn.classList.add("bg-red-600");
             cashInBtn.classList.remove("bg-green-600");
-            cashInBtn.classList.add("bg-green-300");
+            cashInBtn.classList.add("bg-green-400");
         }
     }
 

@@ -153,13 +153,12 @@
         {{-- Transactions Table --}}
         <div class="bg-white shadow rounded-lg overflow-x-auto border border-gray-200">
             <table class="min-w-full divide-y divide-gray-200 text-sm text-center" id='expTable'>
-
                 <thead class="bg-gray-800 text-center">
                     <tr>
-                        <th class="px-6 py-3 font-semibold text-white cursor-pointer">S. No</th>
-                        <th class="px-6 py-3 font-semibold text-white cursor-pointer">Date</th>
-                        <th class="px-6 py-3 font-semibold text-white cursor-pointer">Category</th>
-                        <th class="px-6 py-3 font-semibold text-white cursor-pointer">Reason</th>
+                        <th class="px-6 py-3 font-semibold text-white cursor-pointer hidden md:table-cell">S. No</th>
+                        <th class="px-6 py-3 font-semibold text-white cursor-pointer hidden md:table-cell">Date</th>
+                        <th class="px-6 py-3 font-semibold text-white cursor-pointer">Category / Date</th>
+                        <th class="px-6 py-3 font-semibold text-white cursor-pointer hidden md:table-cell">Reason</th>
                         <th class="px-6 py-3 font-semibold text-white cursor-pointer">Cash In</th>
                         <th class="px-6 py-3 font-semibold text-white cursor-pointer">Cash Out</th>
                     </tr>
@@ -169,16 +168,38 @@
                     @forelse ($transactions as $t)
                         <tr class="hover:bg-gray-100 cursor-pointer transition"
                             onclick="window.location='{{ route('transactions.show', $t) }}'">
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $loop->iteration }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                {{ \Carbon\Carbon::parse($t->transaction_date)->format('F j, Y') }}<br>{{ \Carbon\Carbon::parse($t->transaction_date)->format('h:i A') }}
+
+                            {{-- S. No - hidden on md and smaller --}}
+                            <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">{{ $loop->iteration }}</td>
+
+                            {{-- Date - hidden on md and smaller --}}
+                            <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">
+                                {{ \Carbon\Carbon::parse($t->transaction_date)->format('F j, Y') }}<br>
+                                {{ \Carbon\Carbon::parse($t->transaction_date)->format('h:i A') }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $t->category->name ?? '-' }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $t->desc ?? '-' }}</td>
+
+                            {{-- Category + Date (visible only on md and smaller) --}}
+                            <td class="px-6 py-4 whitespace-nowrap text-left md:hidden">
+                                <div class="font-semibold">{{ $t->category->name ?? '-' }}</div>
+                                <div class="text-xs text-gray-500">
+                                    {{ \Carbon\Carbon::parse($t->transaction_date)->format('F j, Y') }},
+                                    {{ \Carbon\Carbon::parse($t->transaction_date)->format('h:i A') }}
+                                </div>
+                            </td>
+
+                            {{-- Category only for larger screens --}}
+                            <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">
+                                {{ $t->category->name ?? '-' }}</td>
+
+                            {{-- Reason - hidden on md and smaller --}}
+                            <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">{{ $t->desc ?? '-' }}</td>
+
                             <td class="px-6 py-4 whitespace-nowrap font-semibold bg-green-50 text-green-600">
-                                {{ $t->type === 'cash_in' ? '+ ₹' . number_format($t->amount, 2) : '' }}</td>
+                                {{ $t->type === 'cash_in' ? '+ ₹' . number_format($t->amount, 2) : '' }}
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap font-semibold bg-red-50 text-red-600">
-                                {{ $t->type === 'cash_out' ? '- ₹' . number_format($t->amount, 2) : '' }}</td>
+                                {{ $t->type === 'cash_out' ? '- ₹' . number_format($t->amount, 2) : '' }}
+                            </td>
                         </tr>
                     @empty
                         <tr>
@@ -187,9 +208,7 @@
                         </tr>
                     @endforelse
                 </tbody>
-
             </table>
-
         </div>
 
         <x-balance-summary-bar :$totalCashIn :$totalCashOut :$balance />
@@ -200,21 +219,7 @@
     </div>
 </x-app-layout>
 
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
 <script>
-    $(document).ready(function() {
-        if ($('#expTable tbody tr').length > 1 || !$('#expTable tbody tr td').hasClass('text-center')) {
-            $('#expTable').DataTable({
-                paging: false,
-                searching: false,
-                info: false,
-                ordering: true,
-            });
-        }
-    });
     const openModalBtn = document.getElementById('openCustomDateModal');
     const closeModalBtn = document.getElementById('closeCustomDateModal');
     const modal = document.getElementById('customDateModal');
