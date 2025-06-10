@@ -17,12 +17,11 @@
     </x-slot>
 
     <div class="py-4 max-w-7xl px-4 mx-auto md:px-6 lg:px-8">
-        
-        {{-- Filter Buttons --}}
-        <div class="flex flex-wrap md:flex-nowrap gap-4 p-4 mb-6 border border-gray-300 bg-white rounded-md shadow-sm items-center">
 
+        {{-- Filter Buttons --}}
+        <div class="flex flex-wrap lg:flex-nowrap gap-4 p-4 mb-6 border border-gray-300 bg-white rounded-md shadow-sm items-center overflow-hidden min-w-0">
             {{-- Dates Label --}}
-            <label class="flex gap-2 w-full md:w-auto items-center">
+            <label class="flex gap-2 w-full lg:w-auto items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -32,13 +31,13 @@
             </label>
 
             {{-- Filters + Custom Button --}}
-            <div class="flex flex-wrap md:flex-nowrap gap-2 items-center w-full md:w-auto">
+            <div class="flex flex-wrap lg:flex-nowrap gap-2 items-center w-full lg:w-auto">
                 <!-- Link buttons for md+ -->
-                <div class="hidden md:flex space-x-2">
+                <div class="hidden lg:flex space-x-2">
                     @foreach (['all', 'yearly', 'monthly', 'weekly', 'daily'] as $option)
                         <a href="{{ route('transactions.index', ['filter' => $option]) }}"
                             class="px-4 py-2 rounded-md font-semibold transition
-                    {{ $filter === $option ? 'bg-gray-900 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-700' }}">
+                            {{ $filter === $option ? 'bg-gray-900 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-700' }}">
                             {{ ucfirst($option) }}
                         </a>
                     @endforeach
@@ -50,7 +49,7 @@
                 </div>
 
                 <!-- Dropdown for small screens -->
-                <div class="md:hidden min-w-full flex gap-3">
+                <div class="lg:hidden min-w-full flex gap-3">
                     <select onchange="window.location.href=this.value"
                         class="block w-2/3 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-gray-300">
                         @foreach (['all', 'yearly', 'monthly', 'weekly', 'daily'] as $option)
@@ -70,14 +69,14 @@
 
             {{-- Category Filter --}}
             <form method="GET" action="{{ route('transactions.index') }}"
-                class="flex flex-col md:flex-row items-start md:items-center gap-2 md:ml-auto w-full md:w-auto"
+                class="flex flex-col lg:flex-row items-start lg:items-center gap-2 lg:ml-auto w-full lg:w-auto"
                 id="categoryFilterForm">
                 <input type="hidden" name="filter" value="category">
                 <label for="category_id" class="flex gap-2 items-center text-gray-700 font-semibold">
                     Categories:
                 </label>
                 <select name="category_id" id="category_id"
-                    class="border border-gray-300 rounded-md px-3 py-2 w-full md:w-60 text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition"
+                    class="border border-gray-300 rounded-md px-3 py-2 w-full lg:w-60 text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition"
                     onchange="document.getElementById('categoryFilterForm').submit()">
                     <option value="" disabled selected class="text-gray-400">Choose Category</option>
                     @foreach ($categories as $cat)
