@@ -8,15 +8,18 @@
 
             {{-- Summary Cards --}}
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
-                <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
+                <div
+                    class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
                     <h3 class="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">Total Cash In</h3>
                     <p class="text-3xl font-bold text-green-500">₹{{ number_format($totalCashIn, 2) }}</p>
                 </div>
-                <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
+                <div
+                    class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
                     <h3 class="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">Total Cash Out</h3>
                     <p class="text-3xl font-bold text-red-500">₹{{ number_format($totalCashOut, 2) }}</p>
                 </div>
-                <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
+                <div
+                    class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
                     <h3 class="text-lg font-semibold mb-2 text-gray-700 dark:text-gray-300">Balance</h3>
                     <p class="text-3xl font-bold text-gray-900 dark:text-gray-100">₹{{ number_format($balance, 2) }}</p>
                 </div>
@@ -25,32 +28,40 @@
             {{-- Charts Grid --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {{-- Cash In by Category --}}
-                <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                <div
+                    class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
                     <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Cash In by Category</h3>
                     <canvas id="cashInChart" class="w-full h-64"></canvas>
                 </div>
 
                 {{-- Cash Out by Category --}}
-                <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                <div
+                    class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
                     <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Cash Out by Category</h3>
                     <canvas id="cashOutChart" class="w-full h-64"></canvas>
                 </div>
 
                 {{-- Monthly Income vs Expense Trend --}}
-                <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 col-span-1 sm:col-span-2 lg:col-span-3">
-                    <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Monthly Income vs Expense (Last 12 Months)</h3>
+                <div
+                    class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 col-span-1 sm:col-span-2 lg:col-span-3">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Monthly Income vs Expense
+                        (Last 12 Months)</h3>
                     <canvas id="monthlyTrendChart" class="w-full h-72"></canvas>
                 </div>
 
                 {{-- Top 5 Spending Categories --}}
-                <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                    <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Top 5 Spending Categories</h3>
+                <div
+                    class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Top 5 Spending Categories
+                    </h3>
                     <canvas id="topSpendingChart" class="w-full h-64"></canvas>
                 </div>
 
                 {{-- Daily Cash Flow (Last 30 Days) --}}
-                <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 sm:col-span-2">
-                    <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Daily Cash Flow (Last 30 Days)</h3>
+                <div
+                    class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 sm:col-span-2">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Daily Cash Flow (Last 30
+                        Days)</h3>
                     <canvas id="dailyFlowChart" class="w-full h-64"></canvas>
                 </div>
             </div>
@@ -91,7 +102,9 @@
                         position: 'bottom',
                         labels: {
                             color: '#4B5563',
-                            font: { size: 14 }
+                            font: {
+                                size: 14
+                            }
                         }
                     }
                 }
@@ -103,7 +116,12 @@
                 plugins: {
                     legend: {
                         position: 'top',
-                        labels: { color: '#4B5563', font: { size: 14 } }
+                        labels: {
+                            color: '#4B5563',
+                            font: {
+                                size: 14
+                            }
+                        }
                     },
                     tooltip: {
                         callbacks: {
@@ -114,10 +132,14 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: { color: '#4B5563' }
+                        ticks: {
+                            color: '#4B5563'
+                        }
                     },
                     x: {
-                        ticks: { color: '#4B5563' }
+                        ticks: {
+                            color: '#4B5563'
+                        }
                     }
                 },
                 animation: {
@@ -142,7 +164,9 @@
                     labels: cashInData.map(item => item.category || 'Uncategorized'),
                     datasets: [{
                         data: cashInData.map(item => item.total),
-                        backgroundColor: ['#34d399', '#10b981', '#059669', '#047857', '#065f46', '#22c55e', '#16a34a']
+                        backgroundColor: ['#34d399', '#10b981', '#059669', '#047857', '#065f46',
+                            '#22c55e', '#16a34a'
+                        ]
                     }]
                 },
                 options: pieOptions
@@ -155,7 +179,9 @@
                     labels: cashOutData.map(item => item.category || 'Uncategorized'),
                     datasets: [{
                         data: cashOutData.map(item => item.total),
-                        backgroundColor: ['#f87171', '#ef4444', '#dc2626', '#b91c1c', '#991b1b', '#ef4444', '#b91c1c']
+                        backgroundColor: ['#f87171', '#ef4444', '#dc2626', '#b91c1c', '#991b1b',
+                            '#ef4444', '#b91c1c'
+                        ]
                     }]
                 },
                 options: pieOptions
@@ -167,10 +193,12 @@
                 data: {
                     labels: months.map(m => {
                         const date = new Date(m + '-01');
-                        return date.toLocaleString('default', { month: 'short', year: 'numeric' });
+                        return date.toLocaleString('default', {
+                            month: 'short',
+                            year: 'numeric'
+                        });
                     }),
-                    datasets: [
-                        {
+                    datasets: [{
                             label: 'Cash In',
                             data: months.map(m => {
                                 const found = monthlyTrend.find(t => t.month === m);
@@ -205,8 +233,7 @@
                         const date = new Date(d);
                         return `${date.getDate()}/${date.getMonth() + 1}`;
                     }),
-                    datasets: [
-                        {
+                    datasets: [{
                             label: 'Cash In',
                             data: dailyDates.map(d => {
                                 const found = dailyFlow.find(f => f.date === d);

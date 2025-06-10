@@ -9,33 +9,33 @@
         <div class="max-w-7xl mx-auto space-y-16">
 
             <x-card-row heading="Daily">
-                    <x-card link="/transactions?filter=daily" :front="'Daily Income'" :back="$totalCashInDaily" type="cash-in" />
-                    <x-card link="/transactions?filter=daily" :front="'Daily Expenses'" :back="$totalCashOutDaily" type="cash-out" />
-                    <x-card link="/transactions?filter=daily" :front="'Daily Net Amount'" :back="$totalCashInDaily - $totalCashOutDaily"/>
+                <x-card link="/transactions?filter=daily" :front="'Daily Income'" :back="$totalCashInDaily" type="cash-in" />
+                <x-card link="/transactions?filter=daily" :front="'Daily Expenses'" :back="$totalCashOutDaily" type="cash-out" />
+                <x-card link="/transactions?filter=daily" :front="'Daily Net Amount'" :back="$totalCashInDaily - $totalCashOutDaily" />
             </x-card-row>
 
             <x-card-row heading="Weekly">
-                    <x-card link="/transactions?filter=weekly" :front="'Weekly Income'" :back="$totalCashInWeekly" type="cash-in" />
-                    <x-card link="/transactions?filter=weekly" :front="'Weekly Expenses'" :back="$totalCashOutWeekly" type="cash-out" />
-                    <x-card link="/transactions?filter=weekly" :front="'Weekly Net Amount'" :back="$totalCashInWeekly - $totalCashOutWeekly"/>
+                <x-card link="/transactions?filter=weekly" :front="'Weekly Income'" :back="$totalCashInWeekly" type="cash-in" />
+                <x-card link="/transactions?filter=weekly" :front="'Weekly Expenses'" :back="$totalCashOutWeekly" type="cash-out" />
+                <x-card link="/transactions?filter=weekly" :front="'Weekly Net Amount'" :back="$totalCashInWeekly - $totalCashOutWeekly" />
             </x-card-row>
 
             <x-card-row heading="Monthly">
-                    <x-card link="/transactions?filter=monthly" :front="'Monthly Income'" :back="$totalCashInMonthly" type="cash-in" />
-                    <x-card link="/transactions?filter=monthly" :front="'Monthly Expenses'" :back="$totalCashOutMonthly" type="cash-out" />
-                    <x-card link="/transactions?filter=monthly" :front="'Monthly Net Amount'" :back="$totalCashInMonthly - $totalCashOutMonthly"/>
+                <x-card link="/transactions?filter=monthly" :front="'Monthly Income'" :back="$totalCashInMonthly" type="cash-in" />
+                <x-card link="/transactions?filter=monthly" :front="'Monthly Expenses'" :back="$totalCashOutMonthly" type="cash-out" />
+                <x-card link="/transactions?filter=monthly" :front="'Monthly Net Amount'" :back="$totalCashInMonthly - $totalCashOutMonthly" />
             </x-card-row>
 
-             <x-card-row heading="Yearly">
-                    <x-card link="/transactions?filter=yearly" :front="'Yearly Income'" :back="$totalCashInYearly" type="cash-in" />
-                    <x-card link="/transactions?filter=yearly" :front="'Yearly Expenses'" :back="$totalCashOutYearly" type="cash-out" />
-                    <x-card link="/transactions?filter=yearly" :front="'Yearly Net Amount'" :back="$totalCashInYearly - $totalCashOutYearly"/>
+            <x-card-row heading="Yearly">
+                <x-card link="/transactions?filter=yearly" :front="'Yearly Income'" :back="$totalCashInYearly" type="cash-in" />
+                <x-card link="/transactions?filter=yearly" :front="'Yearly Expenses'" :back="$totalCashOutYearly" type="cash-out" />
+                <x-card link="/transactions?filter=yearly" :front="'Yearly Net Amount'" :back="$totalCashInYearly - $totalCashOutYearly" />
             </x-card-row>
 
             <x-card-row heading="Total">
-                    <x-card link="/transactions" :front="'Total Income'" :back="$totalCashIn" type="cash-in"/>
-                    <x-card link="/transactions" :front="'Total Expenses'" :back="$totalCashOut" type="cash-out" />
-                    <x-card link="/transactions" :front="'Total Balance'" :back="$totalCashIn - $totalCashOut"/>
+                <x-card link="/transactions" :front="'Total Income'" :back="$totalCashIn" type="cash-in" />
+                <x-card link="/transactions" :front="'Total Expenses'" :back="$totalCashOut" type="cash-out" />
+                <x-card link="/transactions" :front="'Total Balance'" :back="$totalCashIn - $totalCashOut" />
             </x-card-row>
 
         </div>

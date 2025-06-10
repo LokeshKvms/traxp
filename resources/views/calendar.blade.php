@@ -19,7 +19,7 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <div class="navigations">
+        <div class="navigations flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4 mb-4 px-4">
             <a href="{{ route('calendar', ['year' => $prevMonthDate->year, 'month' => $prevMonthDate->format('m')]) }}" class="nav-button">&laquo; Prev</a>
             <div id="calendar-header" style="cursor:pointer; user-select:none; flex-grow:1; text-align:center;">
                 <h2 id="calendar-title" class="font-semibold text-2xl text-gray-900 leading-tight">
@@ -65,15 +65,15 @@
         </div>
     </x-slot>
 
-    <div class="py-3 px-6 pl-10 min-h-screen">
+    <div class="py-3 px-4 sm:px-6 min-h-screen">
         
         <div class="text-center mb-4">
             <x-balance-summary-bar :$totalCashIn :$totalCashOut :$balance/>
         </div>
 
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 py-8 bg-white space-y-16">
+        <div class="max-w-5xl mx-auto bg-white py-6 px-4 sm:px-6 rounded-lg shadow space-y-6">
 
-            <div class="calendar">
+            <div class="calendar grid grid-cols-7 gap-1 sm:gap-2 text-xs sm:text-sm">
                 {{-- Weekday headers --}}
                 @foreach ($weekDays as $day)
                     <div class="weekday">{{ $day }}</div>
@@ -99,12 +99,12 @@
                         $isToday = $date->isToday();
                     @endphp
 
-                    <a href="{{ $url }}" class="day {{ $isToday ? 'bg-indigo-50' : '' }}">
+                    <a href="{{ $url }}" class="day border p-2 sm:p-3 flex flex-col items-center justify-between rounded {{ $isToday ? 'bg-indigo-100' : 'bg-gray-50' }}">
                         <div class="date-number">{{ $day }}</div>
 
                         @if (isset($data[$key]))
-                            <div class="cash-in">+ ₹{{ number_format($data[$key]['cash_in'], 2) }}</div>
-                            <div class="cash-out">- ₹{{ number_format($data[$key]['cash_out'], 2) }}</div>
+                            <div class="text-green-600 font-medium text-center">+ ₹{{ number_format($data[$key]['cash_in'], 2) }}</div>
+                            <div class="text-red-600 font-medium text-center">- ₹{{ number_format($data[$key]['cash_out'], 2) }}</div>
                         @endif
                     </a>
                 @endfor

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,11 +21,19 @@
             }
 
             @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
         </style>
     </head>
+
     <body class="antialiased bg-gray-50 text-gray-800">
 
         <!-- Top Navigation -->
@@ -40,11 +49,13 @@
                 @if (Route::has('login'))
                     <div class="space-x-4">
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="text-md text-gray-700 hover:text-gray-600">Dashboard</a>
+                            <a href="{{ url('/dashboard') }}"
+                                class="text-md text-gray-700 hover:text-gray-600">Dashboard</a>
                         @else
                             <a href="{{ route('login') }}" class="text-md text-gray-700 hover:text-gray-600">Log in</a>
                             @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="text-md text-gray-700 hover:text-gray-600 ml-2">Register</a>
+                                <a href="{{ route('register') }}"
+                                    class="text-md text-gray-700 hover:text-gray-600 ml-2">Register</a>
                             @endif
                         @endauth
                     </div>
@@ -60,7 +71,8 @@
                 <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-xl mx-auto">
                     Traxp helps you manage your money better with simplicity—no more spreadsheets.
                 </p>
-                <a href="{{ route('register') }}" class="inline-block px-8 py-4 bg-gray-600 text-white text-lg font-semibold rounded-md shadow hover:bg-gray-700 transition">
+                <a href="{{ route('register') }}"
+                    class="inline-block px-8 py-4 bg-gray-600 text-white text-lg font-semibold rounded-md shadow hover:bg-gray-700 transition">
                     Get Started Free
                 </a>
             </div>
@@ -83,14 +95,16 @@
                     <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition duration-300">
                         <div class="text-gray-500 text-3xl mb-4">🛠️</div>
                         <h3 class="text-xl font-semibold mb-2">Total Transaction Control</h3>
-                        <p class="text-gray-600">Easily create, edit, and delete income or expenses whenever you need.</p>
+                        <p class="text-gray-600">Easily create, edit, and delete income or expenses whenever you need.
+                        </p>
                     </div>
 
                     <!-- Smart Calendar -->
                     <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition duration-300">
                         <div class="text-gray-500 text-3xl mb-4">📅</div>
                         <h3 class="text-xl font-semibold mb-2">Cash Flow Calendar</h3>
-                        <p class="text-gray-600">Visualize your cash in and out for any day, right on an interactive calendar.</p>
+                        <p class="text-gray-600">Visualize your cash in and out for any day, right on an interactive
+                            calendar.</p>
                     </div>
 
                     <!-- Data Privacy -->
@@ -104,14 +118,16 @@
                     <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition duration-300">
                         <div class="text-gray-500 text-3xl mb-4">📈</div>
                         <h3 class="text-xl font-semibold mb-2">Real-Time Spending Insights</h3>
-                        <p class="text-gray-600">Track totals by day, week, month, or year with beautifully simple summary cards.</p>
+                        <p class="text-gray-600">Track totals by day, week, month, or year with beautifully simple
+                            summary cards.</p>
                     </div>
 
                     <!-- Transaction Table -->
                     <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition duration-300">
                         <div class="text-gray-500 text-3xl mb-4">📋</div>
                         <h3 class="text-xl font-semibold mb-2">Detailed History View</h3>
-                        <p class="text-gray-600">Browse all your activity in a clean, sortable table with powerful filters.</p>
+                        <p class="text-gray-600">Browse all your activity in a clean, sortable table with powerful
+                            filters.</p>
                     </div>
                 </div>
             </div>
@@ -120,12 +136,13 @@
 
         <!-- Footer -->
         <footer class="bg-white border-t mt-20 pl-10">
-            <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
-                
+            <div
+                class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
+
                 <!-- Logo -->
                 <a href="{{ url('/') }}" class="flex items-center space-x-3 mb-4 md:mb-0">
-                <img src="{{ asset('https://placehold.co/42') }}" alt="Traxp Logo" class="h-8 w-auto">
-                <span class="text-xl font-extrabold text-gray-800 tracking-wide">Traxp</span>
+                    <img src="{{ asset('https://placehold.co/42') }}" alt="Traxp Logo" class="h-8 w-auto">
+                    <span class="text-xl font-extrabold text-gray-800 tracking-wide">Traxp</span>
                 </a>
 
                 <!-- Copyright -->
@@ -133,13 +150,14 @@
 
                 <!-- Important Notice Link -->
                 <div class="mt-4 md:mt-0">
-                <a href="#" class="text-red-600 font-semibold hover:underline transition duration-200">
-                    Terms & Conditions
-                </a>
+                    <a href="#" class="text-red-600 font-semibold hover:underline transition duration-200">
+                        Terms & Conditions
+                    </a>
                 </div>
 
             </div>
         </footer>
 
     </body>
+
 </html>

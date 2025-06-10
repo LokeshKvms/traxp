@@ -4,8 +4,7 @@
     </x-slot>
 
     <div class="py-6 max-w-2xl mx-auto sm:px-6 lg:px-8">
-        <form action="{{ route('transactions.store') }}" method="POST"
-              class="bg-white shadow-md rounded-lg p-6">
+        <form action="{{ route('transactions.store') }}" method="POST" class="bg-white shadow-md rounded-lg p-6">
             @csrf
 
             {{-- Type --}}
@@ -14,21 +13,19 @@
                 <input type="hidden" id="type" name="type" value="{{ old('type') }}" required />
 
                 <div class="flex space-x-4 mx-10 justify-center">
-                    <button type="button" 
-                            id="btn-cash-in" 
-                            class="px-4 py-2 rounded-md w-1/2 font-semibold text-white 
+                    <button type="button" id="btn-cash-in"
+                        class="px-4 py-2 rounded-md w-1/2 font-semibold text-white 
                                 {{ old('type') === 'cash_in' ? 'bg-green-600' : 'bg-green-300' }} 
                                 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600"
-                            data-type="cash_in">
+                        data-type="cash_in">
                         Cash In
                     </button>
 
-                    <button type="button" 
-                            id="btn-cash-out" 
-                            class="px-4 py-2 rounded-md w-1/2 font-semibold text-white 
+                    <button type="button" id="btn-cash-out"
+                        class="px-4 py-2 rounded-md w-1/2 font-semibold text-white 
                                 {{ old('type') === 'cash_out' ? 'bg-red-600' : 'bg-red-300' }} 
                                 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600"
-                            data-type="cash_out">
+                        data-type="cash_out">
                         Cash Out
                     </button>
                 </div>
@@ -41,55 +38,55 @@
                 {{-- Amount --}}
                 <div class="mb-4">
                     <label for="amount" class="block font-medium text-gray-900 mb-1">Amount</label>
-                    <input type="number" step="0.01" min="0" id="amount" name="amount" value="{{ old('amount') }}" required
-                    class="block w-full rounded-md border border-gray-300 bg-white text-gray-900 focus:border-black focus:ring-black" />
+                    <input type="number" step="0.01" min="0" id="amount" name="amount"
+                        value="{{ old('amount') }}" required
+                        class="block w-full rounded-md border border-gray-300 bg-white text-gray-900 focus:border-black focus:ring-black" />
                     @error('amount')
-                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-                
+
                 {{-- Category --}}
                 <div class="mb-4">
                     <label for="category_id" class="block font-medium text-gray-900 mb-1">Category</label>
-                    
+
                     <select id="category_id" name="category_id" required
                         class="block w-full rounded-md border border-gray-300 bg-white text-gray-900 focus:border-black focus:ring-black">
                         <option value="">-- Select Category --</option>
                     </select>
 
 
-                @error('category_id')
-                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+                    @error('category_id')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-            {{-- Reason/Description --}}
-            <div class="mb-4">
-                <label for="desc" class="block font-medium text-gray-900 mb-1">Description</label>
-                <textarea id="desc" name="desc" rows="1"
-                class="block w-full rounded-md border border-gray-300 bg-white text-gray-900 focus:border-black focus:ring-black">{{ old('desc') }}</textarea>
-                @error('desc')
-                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+                {{-- Reason/Description --}}
+                <div class="mb-4">
+                    <label for="desc" class="block font-medium text-gray-900 mb-1">Description</label>
+                    <textarea id="desc" name="desc" rows="1"
+                        class="block w-full rounded-md border border-gray-300 bg-white text-gray-900 focus:border-black focus:ring-black">{{ old('desc') }}</textarea>
+                    @error('desc')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-            {{-- Date & Time --}}
-            <div class="mb-6">
-                <label for="transaction_date" class="block font-medium text-gray-900 mb-1">Date & Time</label>
-                <input type="datetime-local" id="transaction_date" name="transaction_date"
-                value="{{ old('transaction_date', now()->format('Y-m-d\TH:i')) }}" required
-                       class="block w-full rounded-md border border-gray-300 bg-white text-gray-900 focus:border-black focus:ring-black" />
-                @error('transaction_date')
-                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                @enderror
+                {{-- Date & Time --}}
+                <div class="mb-6">
+                    <label for="transaction_date" class="block font-medium text-gray-900 mb-1">Date & Time</label>
+                    <input type="datetime-local" id="transaction_date" name="transaction_date"
+                        value="{{ old('transaction_date', now()->format('Y-m-d\TH:i')) }}" required
+                        class="block w-full rounded-md border border-gray-300 bg-white text-gray-900 focus:border-black focus:ring-black" />
+                    @error('transaction_date')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
-        </div>
 
             <div class="flex justify-end space-x-2">
                 <a href="{{ route('transactions.index') }}"
-                class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 text-gray-900">Cancel</a>
-                <button type="submit"
-                class="px-4 py-2 bg-black rounded-md text-white hover:bg-gray-800">Add</button>
+                    class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 text-gray-900">Cancel</a>
+                <button type="submit" class="px-4 py-2 bg-black rounded-md text-white hover:bg-gray-800">Add</button>
             </div>
         </form>
     </div>
