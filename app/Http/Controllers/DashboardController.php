@@ -63,11 +63,16 @@ class DashboardController extends Controller
             ->sum('amount');
 
         return view('dashboard', compact(
-            'totalCashIn', 'totalCashOut',
-            'totalCashInYearly', 'totalCashOutYearly',
-            'totalCashInMonthly', 'totalCashOutMonthly',
-            'totalCashInWeekly', 'totalCashOutWeekly',
-            'totalCashInDaily', 'totalCashOutDaily'
+            'totalCashIn',
+            'totalCashOut',
+            'totalCashInYearly',
+            'totalCashOutYearly',
+            'totalCashInMonthly',
+            'totalCashOutMonthly',
+            'totalCashInWeekly',
+            'totalCashOutWeekly',
+            'totalCashInDaily',
+            'totalCashOutDaily'
         ));
     }
 

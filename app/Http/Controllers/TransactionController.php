@@ -53,7 +53,7 @@ class TransactionController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('desc', 'like', '%' . $search . '%')
-                ->orWhereHas('category', fn($q2) => $q2->where('name', 'like', '%' . $search . '%'));
+                    ->orWhereHas('category', fn($q2) => $q2->where('name', 'like', '%' . $search . '%'));
             });
         }
 
@@ -70,11 +70,11 @@ class TransactionController extends Controller
                 'Content-Type' => 'text/csv',
                 'Content-Disposition' => 'attachment; filename="transactions.csv"',
             ];
-            
+
             $callback = function () use ($transactions, $totalCashIn, $totalCashOut, $balance) {
                 $file = fopen('php://output', 'w');
                 fputcsv($file, ['ID', 'Date & Time', 'Category', 'Reason', 'Cash In', 'Cash Out']);
-                
+
                 foreach ($transactions as $t) {
                     fputcsv($file, [
                         $t->id,
@@ -98,11 +98,18 @@ class TransactionController extends Controller
         $categories = Category::orderBy('type')->get();
 
         return view('transactions.index', compact(
-            'transactions', 'categories', 'filter', 'search',
-            'categoryId', 'startDate', 'endDate',
-            'totalCashIn', 'totalCashOut', 'balance'
+            'transactions',
+            'categories',
+            'filter',
+            'search',
+            'categoryId',
+            'startDate',
+            'endDate',
+            'totalCashIn',
+            'totalCashOut',
+            'balance'
         ));
-}
+    }
 
 
     public function create()
@@ -121,11 +128,11 @@ class TransactionController extends Controller
             'transaction_date' => 'required|date',
             // 'category_id' => 'required|exists:categories,id',
             'category_id' => [
-                    'required',
-                    Rule::exists('categories', 'id')->where(function ($query) use ($request) {
-                        $query->where('type', $request->type);
-                    }),
-                ],
+                'required',
+                Rule::exists('categories', 'id')->where(function ($query) use ($request) {
+                    $query->where('type', $request->type);
+                }),
+            ],
         ]);
 
         $request->user()->transactions()->create($validated);
