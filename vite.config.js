@@ -7,6 +7,8 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/js/pages/transaction-create-page.js',
+                'resources/js/pages/transaction-edit-page.js'
             ],
             refresh: true,
         }),
