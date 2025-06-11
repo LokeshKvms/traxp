@@ -120,4 +120,3 @@ Traxp is a modern, mobile-responsive expense tracker built with Laravel 9. It he
     ```bash
     php artisan serve
     ```
-````
