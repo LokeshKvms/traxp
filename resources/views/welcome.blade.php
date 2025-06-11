@@ -41,7 +41,7 @@
             <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
                 <!-- Logo -->
                 <a href="{{ url('/') }}" class="flex items-center space-x-2">
-                    <img src="{{ asset('https://placehold.co/42') }}" alt="Traxp Logo" class="h-8 w-auto mr-1">
+                    <img src="{{ asset('https://placehold.co/42/374151/f3f4f6?font=lora&text=T') }}" alt="Traxp Logo" class="h-8 w-auto mr-1 rounded-lg transition-all ease-in-out hover:rounded-[20px] hover:scale-105 hover:shadow-lg">
                     <span class="text-xl font-bold text-gray-700">Traxp</span>
                 </a>
 
@@ -141,7 +141,7 @@
 
                 <!-- Logo -->
                 <a href="{{ url('/') }}" class="flex items-center space-x-3 mb-4 md:mb-0">
-                    <img src="{{ asset('https://placehold.co/42') }}" alt="Traxp Logo" class="h-8 w-auto">
+                    <img src="{{ asset('https://placehold.co/42/374151/f3f4f6?font=lora&text=T') }}" alt="Traxp Logo" class="h-8 w-auto rounded-lg transition-all ease-in-out hover:rounded-[20px] hover:scale-105 hover:shadow-lg">
                     <span class="text-xl font-extrabold text-gray-800 tracking-wide">Traxp</span>
                 </a>
 

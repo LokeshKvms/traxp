@@ -1,1 +1,2 @@
-<img src="{{ asset('https://placehold.co/42') }}" {{ $attributes }} alt="Traxp Logo" class="h-8 w-auto mr-1">
+<img src="{{ asset('https://placehold.co/42/EEE/31343C?font=lora&text=Traxp') }}" {{ $attributes }} alt="Traxp Logo" class="h-8 w-auto mr-1">
+{{-- <img src="{{ asset('traxp.svg') }}" {{ $attributes }} alt="Traxp Logo" class="h-8 w-auto mr-1"> --}}

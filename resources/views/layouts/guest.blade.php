@@ -18,7 +18,7 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div>
                 <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                    <x-application-logo class="w-20 h-20 rounded-[50px] transition-all ease-in-out hover:rounded-lg hover:scale-105 hover:shadow-lg" />
                 </a>
             </div>
 

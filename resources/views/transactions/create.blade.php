@@ -1,3 +1,5 @@
+@vite(['resources/js/pages/transaction-create-page.js'])
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-900 leading-tight">Add Transaction</h2>
