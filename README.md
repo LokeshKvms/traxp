@@ -26,7 +26,7 @@ Traxp is a modern, mobile-responsive expense tracker built with Laravel 9. It he
     -   Income, Expense, and Balance visualization
 -   **Transactions**
     -   View all transactions in a table
-    -   Search bar and static filters
+    -   Search with keywords and static filters
     -   Pagination support
     -   Add, Edit, and Delete transactions
     -   Clickable rows to view detailed transaction info
@@ -43,9 +43,9 @@ Traxp is a modern, mobile-responsive expense tracker built with Laravel 9. It he
 
 -   Laravel 9
 -   Blade Templates
--   Tailwind CSS (or Bootstrap, depending on your UI choice)
--   Chart.js (or another charting library)
--   Laravel Breeze/Fortify for authentication (optional)
+-   Tailwind CSS
+-   Chart.js
+-   Laravel Breeze for authentication
 
 ---
 
@@ -54,7 +54,7 @@ Traxp is a modern, mobile-responsive expense tracker built with Laravel 9. It he
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/your-username/traxp.git
+    git clone https://github.com/LokeshKvms/traxp.git
     cd traxp
 
     ```
