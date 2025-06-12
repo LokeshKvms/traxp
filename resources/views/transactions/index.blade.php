@@ -188,7 +188,7 @@
                             onclick="window.location='{{ route('transactions.show', $t) }}'">
 
                             {{-- S. No - hidden on md and smaller --}}
-                            <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">{{ $loop->iteration }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">{{ $loop->iteration + ($transactions->currentPage() - 1) * $transactions->perPage() }}</td>
 
                             {{-- Date - hidden on md and smaller --}}
                             <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">
