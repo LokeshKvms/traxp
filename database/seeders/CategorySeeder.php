@@ -32,6 +32,7 @@ class CategorySeeder extends Seeder
             ['name' => 'Travel', 'type' => 'cash_out'],
             ['name' => 'Shopping', 'type' => 'cash_out'],
             ['name' => 'Weekend Chills', 'type' => 'cash_out'],
+            ['name' => 'Entertainment', 'type' => 'cash_out'],
             ['name' => 'Bills / Others', 'type' => 'cash_out'],
 
         ];
